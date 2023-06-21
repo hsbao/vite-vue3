@@ -1,2 +1,2 @@
 /** 用户token */
-export const ACCESS_TOKEN_KEY = 'Access-Token'
+export const ACCESS_TOKEN = 'AccessToken'

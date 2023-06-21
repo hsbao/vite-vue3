@@ -7,7 +7,9 @@
 
 <template>
   <el-config-provider :locale="locale">
-    <el-button type="primary">Primary</el-button>
+    <router-view #="{ Component }">
+      <component :is="Component" />
+    </router-view>
   </el-config-provider>
 </template>
 

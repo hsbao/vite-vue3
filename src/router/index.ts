@@ -3,15 +3,26 @@ import 'nprogress/nprogress.css'
 import NProgress from 'nprogress'
 import type { App } from 'vue'
 import type { RouteLocationNormalized, RouteRecordRaw } from 'vue-router'
-import { createRouter, createWebHashHistory, isNavigationFailure } from 'vue-router'
+import { createRouter, createWebHistory, isNavigationFailure } from 'vue-router'
 
-import { ACCESS_TOKEN_KEY } from '@/constants'
+import { ACCESS_TOKEN } from '@/constants'
+import Layout from '@/layout/index.vue'
 import { useKeepAliveStore } from '@/store/modules/keepAlive'
 import storage from '@/utils/storage'
 
 export const whiteNameList = ['Login'] as const
 
 export const routes: Array<RouteRecordRaw> = [
+  {
+    path: '/',
+    name: 'Layout',
+    // redirect: '/home',
+    component: Layout,
+    meta: {
+      title: '主页',
+    },
+    children: [],
+  },
   {
     path: '/login',
     name: 'Login',
@@ -23,8 +34,7 @@ export const routes: Array<RouteRecordRaw> = [
 ]
 
 export const router = createRouter({
-  // import.meta.env.VITE_PUBLIC_PATH || './'
-  history: createWebHashHistory(),
+  history: createWebHistory(import.meta.env.VITE_PUBLIC_PATH || './'),
   routes,
 })
 
@@ -53,7 +63,7 @@ const getComponentName = (route: RouteLocationNormalized) => {
 export async function initRouter(app: App) {
   router.beforeEach(async (to, from, next) => {
     NProgress.start()
-    const token = storage.getItem(ACCESS_TOKEN_KEY, null)
+    const token = storage.getItem(ACCESS_TOKEN, null)
 
     if (token) {
       if (to.name === 'Login') {
@@ -83,7 +93,8 @@ export async function initRouter(app: App) {
       if (whiteNameList.some((n) => n === to.name)) {
         next()
       } else {
-        next({ name: 'Login', query: { redirect: to.fullPath }, replace: true })
+        // next({ name: 'Login', query: { redirect: to.fullPath }, replace: true })
+        next({ name: 'Login' })
       }
     }
 
@@ -92,7 +103,7 @@ export async function initRouter(app: App) {
 
   router.afterEach((to, from, failure) => {
     const keepAliveStore = useKeepAliveStore()
-    const token = storage.getItem(ACCESS_TOKEN_KEY, null)
+    const token = storage.getItem(ACCESS_TOKEN, null)
 
     if (isNavigationFailure(failure)) {
       console.error('failed navigation', failure)
@@ -131,6 +142,7 @@ export async function initRouter(app: App) {
   })
 
   app.use(router)
+
   await router.isReady() // 路由准备就绪后挂载APP实例
 }
 
