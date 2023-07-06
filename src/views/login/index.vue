@@ -2,6 +2,7 @@
   import { Unlock, User } from '@element-plus/icons-vue'
 
   import { ACCESS_TOKEN } from '@/constants'
+  import useUserStore from '@/store/modules/user'
   import storage from '@/utils/storage'
 
   const formLabelAlign = reactive({
@@ -9,10 +10,21 @@
     password: '',
   })
 
+  const loading = ref(false)
+
   const router = useRouter()
   const onClickLogin = () => {
-    storage.setItem(ACCESS_TOKEN, 'test token')
-    router.replace({ path: '/' })
+    const userStore = useUserStore()
+    loading.value = true
+    userStore
+      .login()
+      .then(() => {
+        storage.setItem(ACCESS_TOKEN, 'test token')
+        setTimeout(() => router.replace('/layout'))
+      })
+      .finally(() => {
+        loading.value = false
+      })
   }
 </script>
 
@@ -45,7 +57,7 @@
 
         <div class="button-wrap">
           <el-button>重置</el-button>
-          <el-button type="primary" @click="onClickLogin">登录</el-button>
+          <el-button type="primary" :loading="loading" @click="onClickLogin">登录</el-button>
         </div>
       </div>
     </div>

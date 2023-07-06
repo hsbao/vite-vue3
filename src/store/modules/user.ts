@@ -1,6 +1,7 @@
 import { defineStore } from 'pinia'
 
 import { ACCESS_TOKEN } from '@/constants'
+import { generatorDynamicRouter } from '@/router/dynamicRoutes'
 import { getAllBreadcrumbList, getFlatMenuList } from '@/utils'
 import storage from '@/utils/storage'
 
@@ -67,6 +68,14 @@ export const useUserStore = defineStore({
         },
       ]
       this.updateMenuList(mockMenuList)
+    },
+    login() {
+      return new Promise((resolve) => {
+        generatorDynamicRouter()
+        setTimeout(() => {
+          resolve(true)
+        }, 1000)
+      })
     },
   },
 })

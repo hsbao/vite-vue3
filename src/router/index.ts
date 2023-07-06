@@ -17,13 +17,10 @@ export const whiteNameList = ['Login'] as const
 
 export const routes: Array<RouteRecordRaw> = [
   {
-    path: '/',
+    path: '/layout',
     name: 'Layout',
     redirect: '/home',
     component: Layout,
-    meta: {
-      title: '主页',
-    },
     children: [],
   },
   {
@@ -47,7 +44,7 @@ export const router = createRouter({
 export function resetRouter() {
   router.getRoutes().forEach((route) => {
     const { name } = route
-    if (name && !whiteNameList.some((n) => n === name)) {
+    if (name && name !== 'Layout' && !whiteNameList.some((n) => n === name)) {
       router.hasRoute(name) && router.removeRoute(name)
     }
   })
@@ -68,7 +65,6 @@ export async function initRouter(app: App) {
     NProgress.start()
     const token = storage.getItem(ACCESS_TOKEN, null)
     const userStore = useUserStore()
-
     document.title = to.meta.title as string
 
     if (to.name === 'Login') {
@@ -81,7 +77,6 @@ export async function initRouter(app: App) {
 
     // 5.判断是否有 Token，没有重定向到 login 页面
     if (!token) return next({ name: 'Login', replace: true })
-
     const hasRoute = router.hasRoute(to.name!)
     if (userStore.menuList.length === 0) {
       await initDynamicRouter()

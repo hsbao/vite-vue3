@@ -8,6 +8,28 @@ import router from './index'
 const modules = import.meta.glob('@/views/**/*.vue')
 
 /**
+ * 动态添加路由
+ */
+export const generatorDynamicRouter = async () => {
+  const userStore = useUserStore()
+
+  console.log(1111, router.getRoutes())
+
+  userStore.flatMenuList.forEach((item) => {
+    item.children && delete item.children
+    if (item.component && typeof item.component == 'string') {
+      item.component = modules['/src/views' + item.component + '.vue']
+    }
+    if (item.meta.isFull) {
+      router.addRoute(item as unknown as RouteRecordRaw)
+    } else {
+      router.addRoute('Layout', item as unknown as RouteRecordRaw)
+    }
+  })
+  console.log(22222, router.getRoutes())
+}
+
+/**
  * @description 初始化动态路由
  */
 export const initDynamicRouter = async () => {
@@ -25,15 +47,5 @@ export const initDynamicRouter = async () => {
     return Promise.reject('No permission')
   }
 
-  userStore.flatMenuList.forEach((item) => {
-    item.children && delete item.children
-    if (item.component && typeof item.component == 'string') {
-      item.component = modules['/src/views' + item.component + '.vue']
-    }
-    if (item.meta.isFull) {
-      router.addRoute(item as unknown as RouteRecordRaw)
-    } else {
-      router.addRoute('Layout', item as unknown as RouteRecordRaw)
-    }
-  })
+  generatorDynamicRouter()
 }
