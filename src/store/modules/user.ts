@@ -1,13 +1,13 @@
 import { defineStore } from 'pinia'
 
 import { ACCESS_TOKEN } from '@/constants'
-import { getFlatMenuList } from '@/utils'
+import { getAllBreadcrumbList, getFlatMenuList } from '@/utils'
 import storage from '@/utils/storage'
 
 interface UserState {
   token: string
   menuList: AuthMenu.MenuOptions[]
-  // 当前页面的 router name，用来做按钮权限筛选
+  // router name，用来做按钮权限筛选
   routeName: string
 }
 
@@ -20,6 +20,7 @@ export const useUserStore = defineStore({
   }),
   getters: {
     flatMenuList: (state) => getFlatMenuList(state.menuList),
+    breadcrumbList: (state) => getAllBreadcrumbList(state.menuList),
   },
   actions: {
     /** 登录成功保存token */
@@ -47,11 +48,22 @@ export const useUserStore = defineStore({
         {
           path: '/test',
           name: 'Test',
-          component: '/test/index',
+          redirect: '/test/child',
           meta: {
             icon: 'Setting',
-            title: '测试页面',
+            title: '测试菜单',
           },
+          children: [
+            {
+              path: '/test/child',
+              name: 'TestChild',
+              component: '/test/child',
+              meta: {
+                icon: 'HomeFilled',
+                title: '测试子页面',
+              },
+            },
+          ],
         },
       ]
       this.updateMenuList(mockMenuList)

@@ -44,7 +44,8 @@
     "types/**/*.d.ts",
     "types/**/*.ts",
     "vite.config.ts",
-    "auto-import.d.ts"
+    "auto-imports.d.ts",
+    "components.d.ts",
   ],
   "exclude": [
     "node_modules",

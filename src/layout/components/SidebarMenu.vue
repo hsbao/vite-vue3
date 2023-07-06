@@ -1,10 +1,12 @@
 <script setup lang="ts" name="SubMenu">
   defineProps<{ menuList: AuthMenu.MenuOptions[] }>()
 
+  const route = useRoute()
   const router = useRouter()
 
   const handleClickMenu = (item: AuthMenu.MenuOptions) => {
     if (item.meta.link) return window.open(item.meta.link, '_blank')
+    if (item.path === route.fullPath) return
     router.push(item.path)
   }
 </script>

@@ -5,7 +5,6 @@ import useUserStore from '@/store/modules/user'
 
 import router from './index'
 
-// 引入 views 文件夹下所有 vue 文件
 const modules = import.meta.glob('@/views/**/*.vue')
 
 /**
@@ -36,6 +35,5 @@ export const initDynamicRouter = async () => {
     } else {
       router.addRoute('Layout', item as unknown as RouteRecordRaw)
     }
-    console.log(router.getRoutes())
   })
 }

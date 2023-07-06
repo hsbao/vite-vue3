@@ -12,7 +12,7 @@
   const router = useRouter()
   const onClickLogin = () => {
     storage.setItem(ACCESS_TOKEN, 'test token')
-    router.replace('/')
+    router.replace({ path: '/' })
   }
 </script>
 
