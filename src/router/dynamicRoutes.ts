@@ -13,8 +13,6 @@ const modules = import.meta.glob('@/views/**/*.vue')
 export const generatorDynamicRouter = async () => {
   const userStore = useUserStore()
 
-  console.log(1111, router.getRoutes())
-
   userStore.flatMenuList.forEach((item) => {
     item.children && delete item.children
     if (item.component && typeof item.component == 'string') {
@@ -26,7 +24,6 @@ export const generatorDynamicRouter = async () => {
       router.addRoute('Layout', item as unknown as RouteRecordRaw)
     }
   })
-  console.log(22222, router.getRoutes())
 }
 
 /**

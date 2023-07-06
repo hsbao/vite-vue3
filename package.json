@@ -9,7 +9,8 @@
     "lint": "eslint . --ext .vue,.js,.ts,.jsx,.tsx --fix",
     "format": "prettier --write \"./**/*.{html,vue,ts,tsx,js,.jsx,json,md}\"",
     "lint:style": "stylelint \"./**/*.{css,less,vue,html}\" --fix",
-    "prepare": "husky install"
+    "prepare": "husky install",
+    "lint:lint-staged": "lint-staged"
   },
   "dependencies": {
     "@element-plus/icons-vue": "^2.1.0",
@@ -35,6 +36,7 @@
     "eslint-plugin-simple-import-sort": "^10.0.0",
     "eslint-plugin-vue": "^9.9.0",
     "husky": "^8.0.3",
+    "lint-staged": "^13.2.3",
     "postcss": "^8.4.21",
     "postcss-html": "^1.5.0",
     "postcss-scss": "^4.0.6",
@@ -63,5 +65,26 @@
   "license": "MIT",
   "engines": {
     "node": ">=14.18.0"
+  },
+  "lint-staged": {
+    "*.{js,jsx,ts,tsx}": [
+      "eslint --fix",
+      "prettier --write"
+    ],
+    "*.json": [
+      "prettier --write"
+    ],
+    "*.vue": [
+      "eslint --fix",
+      "prettier --write",
+      "stylelint --fix"
+    ],
+    "*.{scss,styl,html}": [
+      "stylelint --fix",
+      "prettier --write"
+    ],
+    "*.md": [
+      "prettier --write"
+    ]
   }
 }
