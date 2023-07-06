@@ -21,6 +21,6 @@ dist-ssr
 *.sw?
 
 # ts unplugin-auto-import unplugin-vue-components
-auto-imports.d.ts
 auto-import.d.ts
+auto-imports.d.ts
 components.d.ts

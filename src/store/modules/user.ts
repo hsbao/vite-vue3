@@ -49,7 +49,7 @@ export const useUserStore = defineStore({
           name: 'Test',
           component: '/test/index',
           meta: {
-            icon: 'HomeFilled',
+            icon: 'Setting',
             title: '测试页面',
           },
         },
