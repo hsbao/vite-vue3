@@ -22,4 +22,5 @@ dist-ssr
 
 # ts unplugin-auto-import unplugin-vue-components
 auto-imports.d.ts
+auto-import.d.ts
 components.d.ts

@@ -36,3 +36,5 @@ export const useKeepAliveStore = defineStore({
     },
   },
 })
+
+export default useKeepAliveStore

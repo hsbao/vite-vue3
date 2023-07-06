@@ -2075,6 +2075,11 @@
   resolved "https://registry.yarnpkg.com/@vue/shared/-/shared-3.3.4.tgz#06e83c5027f464eef861c329be81454bc8b70780"
   integrity sha512-7OjdcV8vQ74eiz1TZLzZP4JwqM5fA94K6yntPS5Z25r9HDuGNzaGdgvwKYq6S+MxwF0TFRwe50fIR/MYnakdkQ==
 
+"@vue/tsconfig@^0.4.0":
+  version "0.4.0"
+  resolved "https://registry.yarnpkg.com/@vue/tsconfig/-/tsconfig-0.4.0.tgz#f01e2f6089b5098136fb084a0dd0cdd4533b72b0"
+  integrity sha512-CPuIReonid9+zOG/CGTT05FXrPYATEqoDGNrEaqS4hwcw5BUNM2FguC0mOwJD4Jr16UpRVl9N0pY3P+srIbqmg==
+
 "@vue/typescript@1.8.0":
   version "1.8.0"
   resolved "https://registry.yarnpkg.com/@vue/typescript/-/typescript-1.8.0.tgz#0483abb622df89044509187960ca334d8b44662b"

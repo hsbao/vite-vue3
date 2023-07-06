@@ -7,5 +7,8 @@
 <style lang="scss" scoped>
   .home-page {
     width: 100%;
+    height: 100%;
+    background-color: #fff;
+    border-radius: 8px;
   }
 </style>

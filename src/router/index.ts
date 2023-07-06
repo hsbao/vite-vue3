@@ -8,7 +8,10 @@ import { createRouter, createWebHistory, isNavigationFailure } from 'vue-router'
 import { ACCESS_TOKEN } from '@/constants'
 import Layout from '@/layout/index.vue'
 import { useKeepAliveStore } from '@/store/modules/keepAlive'
+import useUserStore from '@/store/modules/user'
 import storage from '@/utils/storage'
+
+import { initDynamicRouter } from './dynamicRoutes'
 
 export const whiteNameList = ['Login'] as const
 
@@ -16,7 +19,7 @@ export const routes: Array<RouteRecordRaw> = [
   {
     path: '/',
     name: 'Layout',
-    // redirect: '/home',
+    redirect: '/home',
     component: Layout,
     meta: {
       title: '主页',
@@ -39,7 +42,7 @@ export const router = createRouter({
 })
 
 /**
- * reset router
+ * @description 重置路由
  */
 export function resetRouter() {
   router.getRoutes().forEach((route) => {
@@ -64,39 +67,35 @@ export async function initRouter(app: App) {
   router.beforeEach(async (to, from, next) => {
     NProgress.start()
     const token = storage.getItem(ACCESS_TOKEN, null)
+    const userStore = useUserStore()
 
-    if (token) {
-      if (to.name === 'Login') {
-        next({ path: '/home' })
+    document.title = to.meta.title as string
+
+    if (to.name === 'Login') {
+      if (token) return next({ path: '/home' })
+      resetRouter()
+      return next()
+    }
+
+    if (whiteNameList.some((n) => n === to.name)) return next()
+
+    // 5.判断是否有 Token，没有重定向到 login 页面
+    if (!token) return next({ name: 'Login', replace: true })
+
+    const hasRoute = router.hasRoute(to.name!)
+    if (userStore.menuList.length === 0) {
+      await initDynamicRouter()
+      if (!hasRoute) {
+        // 如果该路由不存在，可能是动态注册的路由，它还没准备好，需要再重定向一次到该路由
+        next({ ...to, replace: true })
       } else {
-        // const hasRoute = router.hasRoute(to.name!)
-        // if (userStore.menus.length === 0) {
-        //   // 从后台获取菜单
-        //   const [err] = await _to(userStore.afterLogin())
-        //   if (err) {
-        //     userStore.resetToken()
-        //     return next({ name: LOGIN_NAME })
-        //   }
-        //   if (!hasRoute) {
-        //     // 如果该路由不存在，可能是动态注册的路由，它还没准备好，需要再重定向一次到该路由
-        //     next({ ...to, replace: true })
-        //   } else {
-        //     next()
-        //   }
-        // } else {
-        //   next()
-        // }
         next()
       }
     } else {
-      // 在免登录名单，直接进入
-      if (whiteNameList.some((n) => n === to.name)) {
-        next()
-      } else {
-        // next({ name: 'Login', query: { redirect: to.fullPath }, replace: true })
-        next({ name: 'Login' })
-      }
+      next()
     }
+
+    userStore.setRouteName(to.name as string)
 
     NProgress.done()
   })

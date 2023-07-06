@@ -1,6 +1,4 @@
 <script setup lang="ts" name="PageHeader">
-  import { Expand, Fold } from '@element-plus/icons-vue'
-
   import { useGlobalStoreWithOut } from '@/store/modules/global'
 
   const { collapsed, globalStore } = useGlobalStoreWithOut()
