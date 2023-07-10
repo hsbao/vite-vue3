@@ -1,8 +1,127 @@
 # Vue 3 + TypeScript + Vite
 
-This template should help get you started developing with Vue 3 and TypeScript in Vite. The template uses Vue 3 `<script setup>` SFCs, check out the [script setup docs](https://v3.vuejs.org/api/sfc-script-setup.html#sfc-script-setup) to learn more.
+## 1. 依赖安装
 
-## stylelint 搭配 less
+### `npm install`
+
+### `yarn install`
+
+## 2. 本地开发
+
+### `开发环境：npm dev`
+
+### `测试环境：npm test`
+
+## 3. 项目结构说明
+
+```js
+├── public    静态资源文件夹
+│
+├── src       项目源码
+│   ├── api                   接口请求相关
+│       ├── request.ts        axios封装
+│   ├── assets                资源文件夹
+│   ├── components            公共组件
+│   ├── constant              定义全局常量
+│       └── index.tsx
+│   ├── hooks                 公共的业务逻辑
+│   ├── views                 包含全部的业务页面
+│       ├── error             异常信息页面（404等）
+│       ├── home              主页面
+│       ├── login             登录页面
+│   ├── router                路由
+│   ├── store                 全局数据（pinia）
+│       ├── modules           pinia 模块拆分
+│       ├── index.ts          pinia 初始化
+│   ├── style                 全局样式文件
+│   ├── utils                 公共工具函数
+│   ├── App.vue               App组件
+│   └── main.ts               入口文件
+├──  types                    项目开发ts文档
+├── .env.development          开发环境的环境变量
+├── .env.production           生产环境的环境变量
+├── .env.test                 测试环境的环境变量
+├── .gitignore
+├── .prettierignore           配置 prettier 不需要格式化的文件夹
+├── .stylelintignore          配置 stylelint 不需要格式化的文件夹
+├── .eslintrc.cjs             eslint 配置文件
+├── .prettierrc.js            prettier 配置文件
+├── .stylelintrc.js           stylelint 配置文件
+├── commitlint.config.js      commitlint 配置文件
+├── package-lock.json         第三方依赖版本锁定
+├── package.json
+├── README.md
+├── tsconfig.json             ts配置文件
+├── vite.config.ts            vite 配置文件
+└── yarn.lock                 第三方依赖版本锁定
+```
+
+## 4. 开发规范
+
+推荐使用 vue3 script setup 语法
+
+```js
+<script setup lang="ts">
+  // TODO...
+</script>
+
+<template></template>
+
+<style lang="scss" scoped></style>
+```
+
+## 5. 根据权限动态生成路由菜单配置规范
+
+```js
+// ！！！需要跟后端约定好菜单数据
+
+const mockMenuList = [
+  {
+    path: '/home',
+    name: 'Home',
+    component: '/home/index', // 重要：需要跟views目录下的文件对应
+    meta: {
+      icon: 'HomeFilled',
+      title: '首页',
+    },
+  },
+  {
+    path: '/test',
+    name: 'Test',
+    redirect: '/test/child',
+    meta: {
+      icon: 'Setting',
+      title: '测试菜单',
+    },
+    children: [
+      {
+        path: '/test/child',
+        name: 'TestChild',
+        component: '/test/child',
+        meta: {
+          icon: 'HomeFilled',
+          title: '测试子页面',
+        },
+      },
+    ],
+  },
+]
+```
+
+## 6. commit 提交规范
+
+使用 commitlint， 推荐使用 config-conventional 配置去写 commit
+
+### `提交格式：`
+
+```js
+git commit -m '<type>: <description>'
+
+// type: 改动的类型
+// description: commit 主体内容，描述此次所提交的改动的内容
+```
+
+## 其他：stylelint 搭配 less
 
 依赖说明
 
