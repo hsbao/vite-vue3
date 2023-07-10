@@ -17,7 +17,7 @@ export const whiteNameList = ['Login'] as const
 
 export const routes: Array<RouteRecordRaw> = [
   {
-    path: '/layout',
+    path: '/',
     name: 'Layout',
     redirect: '/home',
     component: Layout,

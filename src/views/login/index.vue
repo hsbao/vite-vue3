@@ -20,7 +20,7 @@
       .login()
       .then(() => {
         storage.setItem(ACCESS_TOKEN, 'test token')
-        setTimeout(() => router.replace('/layout'))
+        router.replace('/')
       })
       .finally(() => {
         loading.value = false
@@ -31,10 +31,6 @@
 <template>
   <div class="login-container flx-center">
     <div class="login-box">
-      <div class="login-left">
-        <img class="login-left-img" src="@/assets/images/login_left2.png" alt="login" />
-      </div>
-
       <div class="login-form">
         <el-form
           label-position="top"
