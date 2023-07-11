@@ -80,7 +80,7 @@ export default ({ command, mode }: ConfigEnv): UserConfig => {
     server: {
       host: '0.0.0.0',
       hmr: true,
-      port: 8088,
+      port: 8066,
       proxy: {
         '/dsmhtest': {
           target: 'http://10.100.616.40:9701',

@@ -8,6 +8,7 @@ import axios, {
 import { ElNotification } from 'element-plus'
 
 import { ACCESS_TOKEN } from '@/constants'
+import router from '@/router'
 
 import { AxiosCanceler } from './axiosCancel'
 import { EncryptAES } from './encrypt'
@@ -106,6 +107,7 @@ class HttpRequest {
             message,
             type: 'error',
           })
+          router.replace({ name: 'Login' })
           axiosCanceler.removeAllPending()
         }
 
