@@ -77,6 +77,21 @@ export default ({ command, mode }: ConfigEnv): UserConfig => {
         },
       },
     },
+    server: {
+      host: '0.0.0.0',
+      hmr: true,
+      port: 8088,
+      proxy: {
+        '/dsmhtest': {
+          target: 'http://10.100.616.40:9701',
+          changeOrigin: true,
+        },
+        '/dsmhpro': {
+          target: 'http://10.100.616.40:9701',
+          changeOrigin: true,
+        },
+      },
+    },
     build: {
       minify: 'esbuild',
       cssTarget: 'chrome79',

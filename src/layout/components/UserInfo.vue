@@ -1,20 +1,26 @@
 <script setup lang="ts">
-  import { ElMessageBox } from 'element-plus'
+  import { ElMessage, ElMessageBox } from 'element-plus'
 
+  import { logout } from '@/api/user'
   import { ACCESS_TOKEN } from '@/constants'
+  import { resetRouter } from '@/router'
   import storage from '@/utils/storage'
 
   const router = useRouter()
 
-  const logout = () => {
+  const handleLogout = () => {
     ElMessageBox.confirm('您确定要退出登录吗？', '提示', {
       confirmButtonText: '确定',
       cancelButtonText: '取消',
       type: 'warning',
     })
       .then(() => {
-        storage.removeItem(ACCESS_TOKEN)
-        router.replace({ name: 'Login' })
+        logout().then(() => {
+          ElMessage.success('退出登录成功')
+          storage.removeItem(ACCESS_TOKEN)
+          resetRouter()
+          router.replace({ name: 'Login' })
+        })
       })
       .catch(() => {
         console.log('cancel')
@@ -33,7 +39,7 @@
         <el-dropdown-item>
           <el-icon><Edit /></el-icon>修改密码
         </el-dropdown-item>
-        <el-dropdown-item divided @click="logout">
+        <el-dropdown-item divided @click="handleLogout">
           <el-icon><SwitchButton /></el-icon>退出登录
         </el-dropdown-item>
       </el-dropdown-menu>

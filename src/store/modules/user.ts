@@ -1,5 +1,6 @@
 import { defineStore } from 'pinia'
 
+import { login } from '@/api/user'
 import { ACCESS_TOKEN } from '@/constants'
 import { generatorDynamicRouter } from '@/router/dynamicRoutes'
 import { getAllBreadcrumbList, getFlatMenuList } from '@/utils'
@@ -69,13 +70,17 @@ export const useUserStore = defineStore({
       ]
       this.updateMenuList(mockMenuList)
     },
-    login() {
-      return new Promise((resolve) => {
-        generatorDynamicRouter()
-        setTimeout(() => {
-          resolve(true)
-        }, 1000)
-      })
+    async login(formData: User.ILoginData) {
+      try {
+        const { ret, data } = await login(formData)
+        if (ret === 1 && data) {
+          generatorDynamicRouter()
+          this.setToken(data.token)
+          return true
+        }
+      } catch (error) {
+        console.log('登录失败----', error)
+      }
     },
   },
 })

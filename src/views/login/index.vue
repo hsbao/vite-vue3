@@ -1,13 +1,12 @@
 <script setup lang="ts" name="Login">
   import { Unlock, User } from '@element-plus/icons-vue'
 
-  import { ACCESS_TOKEN } from '@/constants'
   import useUserStore from '@/store/modules/user'
-  import storage from '@/utils/storage'
 
-  const formLabelAlign = reactive({
-    account: '',
-    password: '',
+  const formData = reactive({
+    phone: '',
+    ppwd: '',
+    roleId: 4,
   })
 
   const loading = ref(false)
@@ -17,9 +16,8 @@
     const userStore = useUserStore()
     loading.value = true
     userStore
-      .login()
+      .login(formData)
       .then(() => {
-        storage.setItem(ACCESS_TOKEN, 'test token')
         router.replace('/')
       })
       .finally(() => {
@@ -35,19 +33,14 @@
         <el-form
           label-position="top"
           label-width="100px"
-          :model="formLabelAlign"
+          :model="formData"
           style="max-width: 460px"
         >
           <el-form-item label="账号">
-            <el-input v-model="formLabelAlign.account" :maxlength="11" :prefix-icon="User" />
+            <el-input v-model="formData.phone" :maxlength="11" :prefix-icon="User" />
           </el-form-item>
           <el-form-item label="密码">
-            <el-input
-              type="password"
-              v-model="formLabelAlign.password"
-              show-password
-              :prefix-icon="Unlock"
-            />
+            <el-input type="password" v-model="formData.ppwd" show-password :prefix-icon="Unlock" />
           </el-form-item>
         </el-form>
 

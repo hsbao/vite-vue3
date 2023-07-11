@@ -23,7 +23,7 @@
 │   ├── assets                资源文件夹
 │   ├── components            公共组件
 │   ├── constant              定义全局常量
-│       └── index.tsx
+│       └── index.ts
 │   ├── hooks                 公共的业务逻辑
 │   ├── views                 包含全部的业务页面
 │       ├── error             异常信息页面（404等）
@@ -34,6 +34,7 @@
 │       ├── modules           pinia 模块拆分
 │       ├── index.ts          pinia 初始化
 │   ├── style                 全局样式文件
+│       ├── element           配置element-plus主题色
 │   ├── utils                 公共工具函数
 │   ├── App.vue               App组件
 │   └── main.ts               入口文件
